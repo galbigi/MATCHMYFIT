@@ -1,0 +1,22 @@
+[theme]
+# הצבע הראשי של המערכת - יתאים עכשיו לכפתורים וללוגו החדש
+primaryColor = "#4F46E5"
+
+# מכריח את האתר להישאר תמיד בהיר ונקי
+base = "light"
+
+# צבע הרקע הכללי של האתר
+backgroundColor = "#FFFFFF"
+
+# צבע הרקע של הסרגל הצדדי (Sidebar) ושל אזורים משניים
+secondaryBackgroundColor = "#F8FAFC"
+
+# צבע הטקסט הכללי
+textColor = "#0F172A"
+
+# הפונט הבסיסי
+font = "sans serif"
+
+[server]
+# מעלים את כפתור התפריט המציק של Streamlit (השלוש נקודות למעלה)
+toolbarMode = "minimal"
