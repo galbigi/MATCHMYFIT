@@ -2,7 +2,7 @@
 
 > **Eliminating the guesswork from online shopping through Data, AI, and Advanced Computation.**
 
-👉 **[Live Demo / View the live site here]** *(Add your link here when ready)*
+👉 **[Live Demo / View the live site here]** *https://matchmyfit.streamlit.app/*
 
 MATCHMYFIT is an intelligent size recommendation engine designed to solve the e-commerce challenge of inconsistent clothing sizes. The system analyzes user body measurements, calculates dynamic fabric stretch factors in real-time, and integrates advanced AI tools for data extraction and sentiment analysis to provide highly accurate, personalized size recommendations.
 
