@@ -3,15 +3,15 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 import os
-import subprocess
+import database_setup
 from PIL import Image
 from ai_handler import analyze_size_chart, parse_ai_response, analyze_clothing_reviews
 from logic import DatabaseManager, SizeEngine, is_valid_email
 
 #setup database 
 if not os.path.exists("smartfit.db"):
-    subprocess.run(["python", "database_setup.py"])
-
+    database_setup.create_all_tables()
+    database_setup.seed_data()
 
 
 def show_measurement_guide():
