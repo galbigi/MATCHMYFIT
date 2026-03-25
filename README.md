@@ -4,8 +4,7 @@
 
 👉 **[Live Demo / View the live site here]** *https://matchmyfit.streamlit.app/*
 
-<img width="944" height="367" alt="web" src="https://github.com/user-attachments/assets/eb5dd4b6-721b-4e50-80f8-69cb17cbcc64" /><img width="952" height="428" alt="demo_result" src="https://github.com/user-attachments/assets/f0bfbc53-c56b-4ea3-a2a2-e90d2e983a81" />[README.md](https://github.com/user-attachments/files/26239430/README.md)
-
+<img width="944" height="367" alt="web" src="https://github.com/user-attachments/assets/eb5dd4b6-721b-4e50-80f8-69cb17cbcc64" />
 
 
 MATCHMYFIT is an intelligent size recommendation engine designed to solve the e-commerce challenge of inconsistent clothing sizes. The system analyzes user body measurements, calculates dynamic fabric stretch factors in real-time, and integrates advanced AI tools for data extraction and sentiment analysis to provide highly accurate, personalized size recommendations.
