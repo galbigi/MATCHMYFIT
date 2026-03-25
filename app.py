@@ -1,7 +1,7 @@
 import concurrent.futures
 import streamlit as st
-import pandas as pd
-import altair as alt
+import pandas as pd   # Data manipulation for historical scan records
+import altair as alt  # Data visualization for the sizing dashboard
 import database_setup
 from PIL import Image
 from ai_handler import analyze_size_chart, parse_ai_response, analyze_clothing_reviews
@@ -39,7 +39,7 @@ db = st.session_state['db']
 engine = st.session_state['engine']
 
 # --- Page Configuration ---
-# בקובץ app.py - השורה הראשונה אחרי ה-Imports
+
 st.set_page_config(
     page_title="MatchMyFit AI",
     page_icon="👕",  
@@ -247,6 +247,8 @@ if not st.session_state['user']:
             if st.button("Create Account", width="stretch"):
                 if not is_valid_email(new_email):
                     st.error("Please enter a valid email address (e.g., name@example.com).")
+                elif any(m <= 0 for m in [waist, chest, hip, height]):
+                    st.error("All body measurements must be greater than zero!")
                 else:
                     user_dict = {
                         'email': new_email, 'full_name': new_name,
@@ -420,20 +422,23 @@ else:
                                     with st.spinner("Fetching AI insights..."):
                                         reviews_data = parse_ai_response(future_reviews.result())
                                         if reviews_data and "overall_fit" in reviews_data:
-                                            fit_trend = reviews_data["overall_fit"]
-                                            problem_area = reviews_data.get("problem_area")
-                                            
-                                            if fit_trend == "runs_small":
-                                                st.warning(f"**AI Insight:** Customers report this item runs small" + 
-                                                           (f", especially in the {problem_area}." if problem_area else ".") + 
-                                                           " Consider sizing up.")
-                                            elif fit_trend == "runs_large":
-                                                st.warning(f"**AI Insight:** Customers report this item runs large" + 
-                                                           (f", especially in the {problem_area}." if problem_area else ".") + 
-                                                           " Consider sizing down.")
-                                            elif fit_trend == "true_to_size":
-                                                st.info("**AI Insight:** Customers report this item fits exactly true to size.")
-                                
+                                            confidence=reviews_data.get("confidence_score", 0)
+                                            if confidence>=70:
+                                                fit_trend = reviews_data["overall_fit"]
+                                                problem_area = reviews_data.get("problem_area")
+                                                if fit_trend == "runs_small":
+                                                    st.warning(f"**AI Insight ({confidence}% confidence):** Customers report this item runs small" + 
+                                                            (f", especially in the {problem_area}." if problem_area else ".") + 
+                                                            " Consider sizing up.")
+                                                elif fit_trend == "runs_large":
+                                                    st.warning(f"**AI Insight ({confidence}% confidence):** Customers report this item runs large" + 
+                                                            (f", especially in the {problem_area}." if problem_area else ".") + 
+                                                            " Consider sizing down.")
+                                                elif fit_trend == "true_to_size":
+                                                    st.info("**AI Insight ({confidence}% confidence):** Customers report this item fits exactly true to size.")
+                                            else:
+                                                st.info("**AI Insight:** Not enough consistent customer reviews found to confirm a fit trend. We recommend following the standard size chart for this item.")
+                                                print(f"DEBUG: Insight suppressed. Confidence: {confidence}% (Lower than threshold 70%)")
                             with st.expander("View Calculation Breakdown"):
                                 st.json(result["details"])
                         else:

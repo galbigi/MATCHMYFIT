@@ -1,10 +1,10 @@
 import sqlite3
-import re
-import hashlib
+import re      #Input Validation for email
+import hashlib #id for chart table picture
 import json
 
 class DatabaseManager:
-    """Handles all SQLite database connections and CRUD operations."""
+    """Handles all SQLite database connections and CRUD (create, read, update, delete) operations."""
     
     def __init__(self, db_path='smartfit.db'):
         self.db_path = db_path
@@ -12,10 +12,15 @@ class DatabaseManager:
     def _get_connection(self):
         """Helper method to create a connection """
         conn = sqlite3.connect(self.db_path)
-        conn.row_factory = sqlite3.Row 
+        conn.row_factory = sqlite3.Row #evrey row from the db returns like dictionary
         return conn
 
     def register_user(self, user_data):
+        required_metrics = ['waist', 'chest', 'hip', 'height']
+        for metric in required_metrics:
+            if user_data.get(metric, 0) <= 0:
+                print(f"Validation Failed: {metric} cannot be zero or negative.")
+                return False
         conn = self._get_connection()
         cursor = conn.cursor()
         try:
@@ -78,7 +83,7 @@ class DatabaseManager:
             new_measurements.get('thigh'), email
         ))
         conn.commit()
-        changes = cursor.rowcount 
+        changes = cursor.rowcount #indicates if changes were done 
         conn.close()
         return changes > 0
 
@@ -146,6 +151,7 @@ class DatabaseManager:
         conn.close()
         
         return results
+    
     def add_fabric(self, fabric_name, stretch_factor):
         #only for the tests
         conn = self._get_connection()
@@ -202,7 +208,7 @@ class SizeEngine:
 
     def get_relevant_measurements(self, user_profile, selected_category):
         needed_keys = self.categories_mapping.get(selected_category, [])
-        return {key: user_profile.get(key) for key in needed_keys}
+        return {key: user_profile.get(key) for key in needed_keys} #returns dictionary (e.g {waist:75} )
 
     def compare_to_chart(self, target_val, measurement_name, size_chart, original_body_val):
         """Range Match"""
@@ -246,7 +252,7 @@ class SizeEngine:
         }
         return synonyms.get(label, label)
 
-    def get_final_recommendation(self, recommendations):
+    def get_final_recommendation(self, recommendations): #recommendations is dictionary 
         if "Size Not Found" in recommendations.values():
             return "Consult Size Chart"
         valid_sizes = [self.normalize_label(s) for s in recommendations.values()]
@@ -259,11 +265,11 @@ class SizeEngine:
                 return str(max(numeric_sizes))
             except ValueError:
                 pass 
+
         """list from the smallest size to the biggest"""
         label_order = ["XXS", "XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL", "OS"]
         current_max_idx = -1
         final_label = valid_sizes[0]
-        
         for size in valid_sizes:
             if size in label_order:
                 idx = label_order.index(size)
@@ -281,7 +287,8 @@ class SizeEngine:
         
         stretch_multipliers = {
             "None (0%)": 0.0,
-            "Spandex / Elastane / Lycra": 0.50
+            "Spandex / Elastane / Lycra": 0.50,
+            "Polyamide / Nylon": 0.25
         }
         stretch_factor = stretch_multipliers.get(stretch_type, 0.0)
         stretch_contribution = stretch_factor * (stretch_pct / 100.0)

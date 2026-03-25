@@ -31,6 +31,7 @@ This project was built adhering to industry standards, focusing on clean archite
 
 ## 🏗️ Architecture & Tech Stack
 * **Language:** Python 3.x
+* **AI & LLMs:** Google GenAI SDK (Gemini 2.5 Flash) for Computer Vision and Sentiment Analysis
 * **Frontend / UI:** Streamlit
 * **Database:** SQLite (Relational Data Modeling with Unique Key constraints)
 * **Architecture:** Modular OOP, Concurrent Processing
@@ -52,6 +53,12 @@ cd MATCHMYFIT
 docker build -t matchmyfit-engine .
 docker run -p 8501:8501 --env-file .env matchmyfit-engine
 ```
+### 🔑 Environment Variables
+To run this project locally or via Docker, you must provide your own Google Gemini API key.
+1. Create a file named `.env` in the root directory.
+2. Add your key inside: `GOOGLE_API_KEY=your_actual_api_key_here`
+
+
 ### Option 2: Local Development Setup 💻 (Windows)
 If you prefer to run the code locally without Docker, run the following sequence in your terminal:
 
@@ -63,3 +70,7 @@ python -m venv venv
 pip install -r requirements.txt
 python test_logic.py
 ```
+## 📬 Let's Connect
+**Gal Bigi**
+* **LinkedIn:** [galbigi](https://www.linkedin.com/in/galbigi/)
+* **Email:** gal012bi@gmail.com
