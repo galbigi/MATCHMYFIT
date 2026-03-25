@@ -43,7 +43,7 @@ This project was built adhering to industry standards, focusing on clean archite
 
 ## 🚀 Getting Started 
 
-💡 Quick Start Tip: You can log in using the pre-configured test account: test@matchmyfit.com to immediately test the sizing engine without registering.
+💡 Quick Start Tip: You can log in using the pre-configured test account: `test@matchmyfit.com` to immediately test the sizing engine without registering.
 
 You can run this project locally using Python, or spin it up instantly using Docker.
 
